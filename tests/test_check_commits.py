@@ -192,6 +192,21 @@ class TestCheckCommits(unittest.TestCase):
         )
         self.assertEqual(errors, [])
 
+    def test_allow_empty_body_true_passes(self):
+        commit = {
+            "sha": "emptybody1",
+            "message": "Valid subject line\n\nSigned-off-by: Dev <dev@example.com>\n",
+        }
+        _sha, errors = check_commits.validate_commit_message(
+            commit,
+            sub_char_limit=50,
+            body_char_limit=72,
+            check_blank_line="true",
+            strict_line_length_check="false",
+            allow_empty_body="true",
+        )
+        self.assertEqual(errors, [])
+
     def test_body_strict_false_new_word_after_limit_fails(self):
         line = "a" * 72 + " newword"
         commit = {

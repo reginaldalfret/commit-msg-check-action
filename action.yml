@@ -30,6 +30,11 @@ inputs:
     default: "true"
     description: "When false, allows exceeding the character limit if the last word is a single token"
 
+  allow-empty-body:
+    required: false
+    default: "false"
+    description: "When true, allows commit messages with subject (and trailers) only, omitting a body"
+
 runs:
   using: "composite"
   steps:
@@ -60,4 +65,5 @@ runs:
           --body-limit "${{ inputs.body-char-limit }}" \
           --sub-limit "${{ inputs.sub-char-limit }}" \
           --check-blank-line "${{ inputs.check-blank-line }}" \
-          --strict-line-length-check "${{ inputs.strict-line-length-check }}"
+          --strict-line-length-check "${{ inputs.strict-line-length-check }}" \
+          --allow-empty-body "${{ inputs.allow-empty-body }}"
