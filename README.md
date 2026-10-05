@@ -5,6 +5,7 @@ This GitHub Action enforces consistent commit message formatting for Qualcomm pr
 - Commit Body : Ensures a body is provided and that each line adheres to the defined word wrap limit.
 - Check Blank Line Flag: When true, ensures a blank line between the commit subject, body, and the trailer block (`Signed-off-by:`, `Co-developed-by:`, `Assisted-by:`, …) for better readability. Trailers are recognised by shape (`Token: value`), so project-specific ones need no configuration, and — as with `git interpret-trailers` — they are expected to form one contiguous block with no blank lines between individual trailers.
 - Strict Line Length Check Flag: When false, allows exceeding the character limit if the last word is a single token.
+- Allow Empty Body Flag: Optional (default: false). When true, allows commit messages with only a subject line (and optional trailers such as `Signed-off-by:`), omitting a body. When false, the commit body requirement remains active.
 
 # Usage
 Create a new GitHub Actions workflow in your project, e.g. at .github/workflows/commit-check.yml
@@ -37,7 +38,7 @@ Create a new GitHub Actions workflow in your project, e.g. at .github/workflows/
               sub-char-limit: 72
               check-blank-line: true
               strict-line-length-check: true
-              
+              allow-empty-body: false
 
 
 ## Getting in Contact

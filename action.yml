@@ -53,17 +53,25 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: pip install -r ${{ github.action_path }}/requirements.txt
+      run: pip install -r "$GITHUB_ACTION_PATH/requirements.txt"
 
     - name: Check commit messages
       shell: bash
       working-directory: ${{ github.workspace }}
+      env:
+        ACTION_BASE: ${{ inputs.base }}
+        ACTION_HEAD: ${{ inputs.head }}
+        ACTION_BODY_LIMIT: ${{ inputs.body-char-limit }}
+        ACTION_SUB_LIMIT: ${{ inputs.sub-char-limit }}
+        ACTION_CHECK_BLANK_LINE: ${{ inputs.check-blank-line }}
+        ACTION_STRICT_LINE_LENGTH: ${{ inputs.strict-line-length-check }}
+        ACTION_ALLOW_EMPTY_BODY: ${{ inputs.allow-empty-body }}
       run: |
-        python ${{ github.action_path }}/check_commits.py \
-          --base "${{ inputs.base }}" \
-          --head "${{ inputs.head }}" \
-          --body-limit "${{ inputs.body-char-limit }}" \
-          --sub-limit "${{ inputs.sub-char-limit }}" \
-          --check-blank-line "${{ inputs.check-blank-line }}" \
-          --strict-line-length-check "${{ inputs.strict-line-length-check }}" \
-          --allow-empty-body "${{ inputs.allow-empty-body }}"
+        python "$GITHUB_ACTION_PATH/check_commits.py" \
+          --base "$ACTION_BASE" \
+          --head "$ACTION_HEAD" \
+          --body-limit "$ACTION_BODY_LIMIT" \
+          --sub-limit "$ACTION_SUB_LIMIT" \
+          --check-blank-line "$ACTION_CHECK_BLANK_LINE" \
+          --strict-line-length-check "$ACTION_STRICT_LINE_LENGTH" \
+          --allow-empty-body "$ACTION_ALLOW_EMPTY_BODY"

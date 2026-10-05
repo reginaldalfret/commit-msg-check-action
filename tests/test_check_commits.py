@@ -207,6 +207,35 @@ class TestCheckCommits(unittest.TestCase):
         )
         self.assertEqual(errors, [])
 
+    def test_allow_empty_body_true_subject_only_passes(self):
+        commit = {
+            "sha": "emptybody2",
+            "message": "Valid subject line only\n",
+        }
+        _sha, errors = check_commits.validate_commit_message(
+            commit,
+            sub_char_limit=50,
+            body_char_limit=72,
+            check_blank_line="true",
+            strict_line_length_check="false",
+            allow_empty_body="true",
+        )
+        self.assertEqual(errors, [])
+
+    def test_allow_empty_body_default_missing_body_fails(self):
+        commit = {
+            "sha": "emptybody3",
+            "message": "Valid subject line only\n",
+        }
+        _sha, errors = check_commits.validate_commit_message(
+            commit,
+            sub_char_limit=50,
+            body_char_limit=72,
+            check_blank_line="true",
+            strict_line_length_check="false",
+        )
+        self.assertIn("Commit message is missing a body!", errors)
+
     def test_body_strict_false_new_word_after_limit_fails(self):
         line = "a" * 72 + " newword"
         commit = {

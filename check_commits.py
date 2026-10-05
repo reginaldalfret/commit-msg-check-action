@@ -127,7 +127,12 @@ def validate_subject(subject, sub_char_limit):
 
 
 def validate_body(
-    lines, n, body_char_limit, check_blank_line, strict_line_length_check, allow_empty_body="false"
+    lines,
+    n,
+    body_char_limit,
+    check_blank_line,
+    strict_line_length_check,
+    allow_empty_body="false",
 ):
     """Validate the commit body."""
     errors = []
@@ -172,7 +177,12 @@ def validate_trailers(lines, body, check_blank_line):
 
 
 def validate_commit_message(
-    commit, sub_char_limit, body_char_limit, check_blank_line, strict_line_length_check, allow_empty_body="false"
+    commit,
+    sub_char_limit,
+    body_char_limit,
+    check_blank_line,
+    strict_line_length_check,
+    allow_empty_body="false",
 ):
     sha = commit["sha"]
     message = commit["message"]
@@ -183,7 +193,12 @@ def validate_commit_message(
     errors = []
     subject_errors = validate_subject(subject, sub_char_limit)
     body_errors, body = validate_body(
-        lines, n, body_char_limit, check_blank_line, strict_line_length_check, allow_empty_body
+        lines,
+        n,
+        body_char_limit,
+        check_blank_line,
+        strict_line_length_check,
+        allow_empty_body,
     )
     trailer_errors = validate_trailers(lines, body, check_blank_line)
 
@@ -193,12 +208,22 @@ def validate_commit_message(
 
 
 def process_commits(
-    commits, sub_limit, body_limit, check_blank_line, strict_line_length_check, allow_empty_body="false"
+    commits,
+    sub_limit,
+    body_limit,
+    check_blank_line,
+    strict_line_length_check,
+    allow_empty_body="false",
 ):
     failed_count = 0
     for commit in commits:
         sha, errors = validate_commit_message(
-            commit, sub_limit, body_limit, check_blank_line, strict_line_length_check, allow_empty_body
+            commit,
+            sub_limit,
+            body_limit,
+            check_blank_line,
+            strict_line_length_check,
+            allow_empty_body,
         )
         if errors:
             print(f"::group:: ❌ Errors in commit {sha}")
