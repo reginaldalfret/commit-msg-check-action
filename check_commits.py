@@ -132,7 +132,7 @@ def validate_body(
     body_char_limit,
     check_blank_line,
     strict_line_length_check,
-    allow_empty_body="false",
+    allow_empty_body,
 ):
     """Validate the commit body."""
     errors = []
